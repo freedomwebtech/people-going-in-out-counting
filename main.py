@@ -58,7 +58,7 @@ while True:
         c=class_list[d]
         if 'person' in c:
             cv2.rectangle(frame,(x1,y1),(x2,y2),(0,0,255),2)
-            cvzone.putTextRect(frame,f'{c}',(x3,y3),1,1)
+            cvzone.putTextRect(frame,f'{c}',(x1,y1),1,1)
            
     cv2.imshow("RGB", frame)
     if cv2.waitKey(1)&0xFF==27:
