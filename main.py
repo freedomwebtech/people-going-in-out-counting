@@ -4,8 +4,8 @@ from ultralytics import YOLO
 import cvzone
 import numpy as np
 from tracker import*
-from segment_anything import SamPredictor
-mask_predictor = SamPredictor(sam)
+
+
 
 model=YOLO('yolov8s.pt')
 
@@ -21,7 +21,7 @@ def RGB(event, x, y, flags, param):
 
 cv2.namedWindow('RGB')
 cv2.setMouseCallback('RGB', RGB)
-cap=cv2.VideoCapture("best.mp4")
+cap=cv2.VideoCapture("gate.mp4")
 
 
 my_file = open("coco.txt", "r")
@@ -46,8 +46,7 @@ while True:
     a=results[0].boxes.data
     px=pd.DataFrame(a).astype("float")
     
-    counter1=[]
-    list=[]
+    
     for index,row in px.iterrows():
 #        print(row)
  
@@ -58,16 +57,9 @@ while True:
         d=int(row[5])
         c=class_list[d]
         if 'person' in c:
-            list.append([x1,y1,x2,y2])
-    bbox_idx=tracker.update(list)
-    for bbox in bbox_idx:
-        x3,y3,x4,y4,id=bbox
-        a=np.array([list])
-        print(a)
-        cv2.rectangle(frame,(x3,y3),(x4,y4),(0,0,255),2)
-        cvzone.putTextRect(frame,f'{id}',(x3,y3),1,1)
-        counter1.append(c)
-#    print(len(counter1))       
+            cv2.rectangle(frame,(x1,y1),(x2,y2),(0,0,255),2)
+            cvzone.putTextRect(frame,f'{c}',(x3,y3),1,1)
+           
     cv2.imshow("RGB", frame)
     if cv2.waitKey(1)&0xFF==27:
         break
